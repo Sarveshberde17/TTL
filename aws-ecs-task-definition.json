@@ -1,0 +1,43 @@
+{
+  "family": "flask-ml-api-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::<account-id>:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::<account-id>:role/flaskMlApiTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "flask-ml-api",
+      "image": "<account-id>.dkr.ecr.<region>.amazonaws.com/flask-ml-api:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 5000,
+          "hostPort": 5000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        { "name": "APP_ENV", "value": "production" },
+        { "name": "PORT", "value": "5000" },
+        { "name": "REDIS_URL", "value": "" },
+        { "name": "RATE_LIMIT", "value": "60" },
+        { "name": "RATE_WINDOW", "value": "60" },
+        { "name": "REQUEST_TIMEOUT_SECONDS", "value": "5" },
+        { "name": "AWS_SECRETS_ENABLED", "value": "true" },
+        { "name": "AWS_SECRET_NAME", "value": "flask-ml-api/prod" },
+        { "name": "AWS_REGION", "value": "<region>" },
+        { "name": "SENTRY_DSN", "value": "" }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/flask-ml-api",
+          "awslogs-region": "<region>",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
