@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}About - House Price Predictor{% endblock %}
+{% block extra_head %}
+<style>
+    .about-header {
+        background: url('https://source.unsplash.com/1600x900/?real-estate,house') no-repeat center center/cover;
+        color: black;
+        height: 30vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+        padding: 20px;
+    }
+    .about-header h1 {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+    .about-container {
+        padding: 50px 0;
+    }
+    .about-section {
+        margin-bottom: 40px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+<!-- Header Section -->
+<div class="about-header">
+    <h1>About House Price Prediction</h1>
+    <p>AI-Powered Real Estate Price Estimation</p>
+</div>
+
+<!-- About Content -->
+<div class="container about-container">
+    <div class="row">
+        <div class="col-md-6 about-section">
+            <h2>🏡 Project Overview</h2>
+            <p>The <b>House Price Prediction</b> project is an AI-based system designed to estimate property prices using machine learning. By analyzing real estate data, it helps buyers, sellers, and investors make informed decisions. Our Flask-based web application provides instant and accurate predictions.</p>
+        </div>
+        <div class="col-md-6 about-section">
+            <h2>🚀 Technologies Used</h2>
+            <p>We use powerful Python libraries such as <b>NumPy, Pandas, Scikit-learn, Matplotlib, Seaborn</b>, and <b>Random Forest</b> to analyze and predict house prices. The system is deployed using <b>Flask</b> for a seamless web experience.</p>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <h2 class="text-center mt-5">📌 Key Features</h2>
+    <div class="row">
+        <div class="col-md-4 text-center about-section">
+            <h4>📊 Data Collection & Processing</h4>
+            <p>We use real estate data from Maharashtra, ensuring accurate property insights.</p>
+        </div>
+        <div class="col-md-4 text-center about-section">
+            <h4>📈 Data Visualization</h4>
+            <p>Graphs and charts provide deeper insights into property trends.</p>
+        </div>
+        <div class="col-md-4 text-center about-section">
+            <h4>🔍 Machine Learning Model</h4>
+            <p>Random Forest regression provides precise price estimations.</p>
+        </div>
+    </div>
+
+    <!-- Model Evaluation -->
+    <div class="row mt-5">
+        <div class="col-md-6 about-section">
+            <h2>📏 Model Evaluation</h2>
+            <p>We evaluate the model using <b>R-squared error</b> and <b>mean absolute error (MAE)</b> to ensure high accuracy. Scatter plots visualize predicted vs. actual prices.</p>
+        </div>
+        <div class="col-md-6 about-section">
+            <h2>🌍 Web-Based Interface</h2>
+            <p>Users can enter property details on our <b>Flask-powered website</b> and get instant predictions, making the tool accessible and efficient.</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,113 @@
+<style>
+  /* Navbar Brand (Project Name) */
+  .navbar-brand {
+    font-size: 1.8rem; /* Larger font size */
+    font-weight: bold;
+    color: #004085 !important; /* Dark Blue */
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: 0.3s ease-in-out;
+  }
+
+  /* Navbar Brand Hover */
+  .navbar-brand:hover {
+    color: #0056b3 !important; /* Lighter Blue */
+    transform: scale(1.05);
+  }
+
+  /* Navbar Link Styles */
+  .navbar-nav .nav-link {
+    transition: 0.3s ease-in-out;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold; /* Bold Text */
+  }
+
+  /* Hover Effect */
+  .navbar-nav .nav-link:hover {
+    background-color: #007bff; /* Blue Background */
+    color: white !important; /* White Text */
+    transform: scale(1.05); /* Slightly Enlarge */
+  }
+
+  /* Active Page Style */
+  .navbar-nav .nav-item .nav-link.active {
+    color: black !important;
+    border-radius: 5px;
+  }
+
+  /* Responsive Navbar Fix */
+  @media (max-width: 991px) {
+    .navbar-nav {
+      text-align: center;
+    }
+    .navbar-nav .nav-item {
+      margin-bottom: 10px;
+    }
+  }
+</style>
+
+<header>
+  <nav
+    class="navbar navbar-expand-lg navbar-light"
+    style="background-color: #e3f2fd"
+  >
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('index') }}"
+        >House Price Predictor</a
+      >
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a
+              class="nav-link {% if request.path == '/' %}active{% endif %}"
+              href="{{ url_for('index') }}"
+              >Home</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link {% if request.path == '/prediction' %}active{% endif %}"
+              href="{{ url_for('prediction') }}"
+              >Prediction</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link {% if request.path == '/dataInsights' %}active{% endif %}"
+              href="{{ url_for('dataInsights') }}"
+              >Data Insights</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link {% if request.path == '/about' %}active{% endif %}"
+              href="{{ url_for('about') }}"
+              >About</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link {% if request.path == '/contact' %}active{% endif %}"
+              href="{{ url_for('contact') }}"
+              >Contact</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

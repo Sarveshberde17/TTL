@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}Prediction - House Price Predictor{% endblock %}
+{% block extra_head %}
+    <style>
+        label {
+            margin: 10px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="card" style="width: 100%; height: 100%; margin-top: 25px;">
+            <div class="card-header text-center">
+                <h1>House Price Predictor</h1>
+            </div>
+            <div class="card-body">
+                {% if not model_ready %}
+                <div class="alert alert-warning">
+                    Prediction model is not loaded. Please add <code>RandomForestModel.pkl</code> to the project root.
+                    {% if model_error %}<br><small>{{ model_error }}</small>{% endif %}
+                </div>
+                {% endif %}
+                <form method="post" accept-charset="utf-8" onsubmit="send_data(event)">
+
+                    <div class="row">
+                        <div class="col-md-12 form-group text-center">
+                            <label><b>Select Location :</b></label>
+                            <select class="form-control" id="location" name="location" required>
+                                {% for location in locations %}
+                                <option value="{{ location }}">{{ location }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-12 form-group text-center">
+                            <label><b>Select Region Name:</b></label>
+                            <select class="form-control" name="region" id="region" required>
+                                {% for region in regions %}
+                                <option value="{{ region }}">{{ region }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-12 form-group text-center">
+                            <label><b>Select House Type :</b></label>
+                            <select class="form-control" name="house-type" id="house-type" required>
+                                {% for house_type in house_types %}
+                                <option value="{{ house_type }}">{{ house_type }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-12 form-group text-center">
+                            <label><b>Enter Area :</b></label>
+                            <input type="number" class="form-control" id="area" name="area" placeholder="Enter Area" required>
+                        </div>
+
+                        <div class="col-md-12 form-group text-center">
+                            <label><b>Enter Total Rooms:</b></label>
+                            <input type="number" class="form-control" id="total_rooms" name="total_rooms" placeholder="Enter Total Rooms" required>
+                        </div>
+
+                        <div class="col-md-12 form-group text-center">
+                            <label><b>Enter Total Beds:</b></label>
+                            <input type="number" class="form-control" id="total_beds" name="total_beds" placeholder="Enter Total Beds" required>
+                        </div>
+
+                        <div class="col-md-12 form-group text-center">
+                            <label><b>Enter Age:</b></label>
+                            <input type="number" class="form-control" id="age" name="age" placeholder="Enter Age" required>
+                        </div>
+
+                        <div class="col-md-12 form-group">
+                            <button class="btn btn-primary form-control" style="margin: 10px;" type="submit">Predict Price</button>
+                        </div>
+                    </div>
+                </form>
+
+                <br>
+                <div class="col-md-12 text-center" style="margin: 10px;">
+                    <h3><span id="prediction" class="fw-bold"></span></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+function send_data(event) {
+    event.preventDefault(); // Prevent form from refreshing the page
+
+    var fd = new FormData(document.querySelector('form'));
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('POST', '/predict', true);
+    document.getElementById("prediction").innerHTML = "Predicting Price...";
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            try {
+                const result = JSON.parse(xhr.responseText);
+                if (xhr.status === 200 && result.predicted_price !== undefined) {
+                    document.getElementById("prediction").innerHTML =
+                        "Estimated Price: Rs. " + Number(result.predicted_price).toLocaleString("en-IN");
+                } else {
+                    document.getElementById("prediction").innerHTML =
+                        "Error: " + (result.error || "Unable to predict");
+                }
+            } catch (e) {
+                document.getElementById("prediction").innerHTML = "Unexpected response from server.";
+            }
+        }
+    };
+    xhr.send(fd);
+}
+</script>
+{% endblock %}

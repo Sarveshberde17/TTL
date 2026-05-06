@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}Data Insights - House Price Predictor{% endblock %}
+{% block extra_head %}
+<style>
+    .insights-header {
+        background: url('https://source.unsplash.com/1600x900/?real-estate,data') no-repeat center center/cover;
+        color: black;
+        height: 30vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+        padding: 20px;
+    }
+    .insights-header h1 {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+    .insights-container {
+        padding: 50px 0;
+    }
+    .chart-container {
+        display: flex;
+        justify-content: center;
+        margin: 30px 0;
+    }
+    canvas {
+        max-width: 600px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+<!-- Header Section -->
+<div class="insights-header">
+    <h1>Real Estate Data Insights</h1>
+    <p>Explore market trends and make informed property decisions.</p>
+</div>
+
+<!-- Insights Content -->
+<div class="container insights-container">
+    <h2 class="text-center mb-4">Market Trends & Analytics</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>🏙️ Top 5 Regions with Highest Prices</h4>
+            <p>Discover the most expensive real estate markets.</p>
+            <div class="chart-container">
+                <canvas id="priceChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4>📈 Price Per Sqft (Top 5 Regions)</h4>
+            <p>See which regions have the highest price per square foot.</p>
+            <div class="chart-container">
+                <canvas id="pricePerSqftChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="text-center mt-4">🔍 Want to Predict a House Price?</h4>
+    <p class="text-center">Use our AI-powered model to estimate property prices instantly.</p>
+    <div class="text-center">
+        <a href="{{ url_for('prediction') }}" class="btn btn-primary btn-lg">Predict Now</a>
+    </div>
+</div>
+{% endblock %}
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch('/api/house-price-insights')
+        .then(response => response.json())
+        .then(data => {
+            // Chart for Average House Prices
+            const ctx1 = document.getElementById('priceChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: data.regions,
+                    datasets: [{
+                        label: 'Avg House Price ($)',
+                        data: data.avg_prices,
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+
+            // Chart for Average Price Per Sqft
+            const ctx2 = document.getElementById('pricePerSqftChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: data.regions,
+                    datasets: [{
+                        label: 'Price Per Sqft ($)',
+                        data: data.avg_price_per_sqft,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+
+        })
+        .catch(error => console.error('Error fetching house price insights:', error));
+    });
+</script>
+{% endblock %}
