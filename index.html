@@ -1,0 +1,67 @@
+{% extends "base.html" %} {% block title %}Home - House Price Predictor{%
+endblock %} {% block extra_head %}
+<style>
+  .hero {
+    background: url("https://source.unsplash.com/1600x900/?house,real-estate")
+      no-repeat center center/cover;
+    color: black;
+    height: 63vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+    max-width: 600px;
+  }
+
+  .features {
+    padding: 50px 0;
+  }
+</style>
+{% endblock %} {% block content %}
+<!-- Hero Section -->
+<div class="hero">
+  <h1>Predict House Prices Instantly</h1>
+  <p>
+    Enter property details and get an estimated price in seconds using our
+    AI-driven model.
+  </p>
+  <a href="{{ url_for('prediction') }}" class="btn btn-primary btn-lg"
+    >Predict Price</a
+  >
+</div>
+
+<!-- Features Section -->
+<div class="container features text-center">
+  <h2 class="mb-4">Why Choose Our Predictor?</h2>
+  <div class="row">
+    <div class="col-md-4">
+      <h4>Accurate Predictions</h4>
+      <p>
+        Our AI model is trained on real estate market data to give precise price
+        estimates.
+      </p>
+    </div>
+    <div class="col-md-4">
+      <h4>Easy to Use</h4>
+      <p>Simply enter details about your property and get instant results.</p>
+    </div>
+    <div class="col-md-4">
+      <h4>Data-Driven Insights</h4>
+      <p>
+        Stay informed with market trends and make better real estate decisions.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}
